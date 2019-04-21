@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-//const logger = require('./middleawre/logger');
+const logger = require('./middleawre/logger');
 const members  =require('./members');
-const moment = require('moment')
+
 //this is used for getting the time and date format
 const app = express();
 
@@ -11,20 +11,32 @@ const app = express();
 });
 */
 // basic middleware
-const logger = (req,res,next) =>{
-  //console.log('Hello');
-  console.log(`${req.protocol}://${req.get('host')}${req.originalUrl} ${moment().format()}`);
-  next();
-}
+
 
 
   //init middleware
-  app.use(logger);
+  //app.use(logger);
 
 
 app.get('/api/members',(req,res) => {
     res.json(members);
 
+    
+
+});
+app.get('/api/members/:id',(req,res) => {
+  //res.send(req.params.id);
+  //this is for the getting information about the getting information of the user
+  //when id is taken as an input
+    //res.json(members.filter(member => member.id === parseInt(req.params.id)));
+//for the whole process like we get result and error also
+const found =members.some(member => member.id === parseInt(req.params.id)) ;
+if (found){
+  res.json(members.filter(member => member.id === parseInt(req.params.id)));
+}
+else{
+  res.status(400).json({msg :'Members Not Found'});
+}
 
 });
 
