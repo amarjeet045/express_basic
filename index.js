@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
-
+//const logger = require('./middleawre/logger');
 const members  =require('./members');
-//const moment = require('moment');//this is used for getting the time and date format
+const moment = require('moment')
+//this is used for getting the time and date format
 const app = express();
 
 /*app.get('/',(req,res) =>{
@@ -10,14 +11,12 @@ const app = express();
 });
 */
 // basic middleware
-const logger = (req, res, next) => {
-    console.log(
-      `${req.protocol}://${req.get('host')}${
-        req.originalUrl
-      }`
-    );
-    next();
-  };
+const logger = (req,res,next) =>{
+  //console.log('Hello');
+  console.log(`${req.protocol}://${req.get('host')}${req.originalUrl} ${moment().format()}`);
+  next();
+}
+
 
   //init middleware
   app.use(logger);
